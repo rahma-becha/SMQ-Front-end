@@ -18,7 +18,8 @@ import { ListReclamationComponent } from '../../reclamations/list-reclamation/li
     FormsModule,
     ChartsModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,

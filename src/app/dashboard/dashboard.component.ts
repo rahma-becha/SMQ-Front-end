@@ -89,11 +89,11 @@ export class DashboardComponent implements OnInit {
       this.lineBigDashboardChartColors = [
        {
          backgroundColor: this.gradientFill,
-         borderColor: this.chartColor,
-         pointBorderColor: this.chartColor,
-         pointBackgroundColor: "#2c2c2c",
          pointHoverBackgroundColor: "#2c2c2c",
          pointHoverBorderColor: this.chartColor,
+         borderColor: "#014C78",
+         pointBorderColor: "#FFF",
+         pointBackgroundColor: "#014C78",
        }
      ];
     this.lineBigDashboardChartLabels = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];

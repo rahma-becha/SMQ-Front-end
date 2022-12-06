@@ -12,7 +12,11 @@ import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-
+import { AddReclamationComponent } from './reclamations/add-reclamation/add-reclamation.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { EditReclamationComponent } from './reclamations/edit-reclamation/edit-reclamation.component';
+import { EditRisquesComponent } from './risques/edit-risques/edit-risques.component';
+import { AddRisquesComponent } from './risques/add-risques/add-risques.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -22,11 +26,16 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     RouterModule,
     AppRoutingModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
+    AddReclamationComponent,
+    EditReclamationComponent,
+    EditRisquesComponent,
+    AddRisquesComponent,
 
 
   ],
