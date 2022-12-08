@@ -17,6 +17,7 @@ export class AddReclamationComponent implements OnInit {
       gravite: ['', [Validators.required]],
       description: ['', [Validators.required]],
       lieuOuPromotion: ['', [Validators.required]],
+      pieceJointe:['', [Validators.required]],
     });
   }
   onSubmit(){}
