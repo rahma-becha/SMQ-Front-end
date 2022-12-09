@@ -72,6 +72,17 @@
               </div>
               <div class="col-md-12">
                 <div class="form-group">
+                  <label for="pieceJointe">Piece Jointe <code>*</code></label>
+                  <input type="file" class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
+                  <span class="mt-2" *ngIf="reclamationFrom.controls['pieceJointe'].invalid && (reclamationFrom.controls['pieceJointe'].dirty || reclamationFrom.controls['pieceJointe'].touched)" class="alert">
+                    <span *ngIf="reclamationFrom.controls['pieceJointe'].errors.required" class="text-danger">
+                    {{"Le champ Piece Jointe est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
                   <label for="description">Description <code>*</code></label>
                   <textarea formControlName="description" name="description" id="description" rows="4" cols="80" class="form-control" placeholder="Here can be your description" ></textarea>
                   <span class="mt-2" *ngIf="reclamationFrom.controls['description'].invalid && (reclamationFrom.controls['description'].dirty || reclamationFrom.controls['description'].touched)" class="alert">

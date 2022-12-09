@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms'
-
+import { Reclamation } from '../../model/reclamation';
+import { ReclamationService } from '../../services/reclamation.service';
 @Component({
   selector: 'add-reclamation',
   templateUrl: './add-reclamation.component.html',
@@ -8,7 +9,8 @@ import { FormBuilder, FormGroup,Validators } from '@angular/forms'
 })
 export class AddReclamationComponent implements OnInit {
    public reclamationFrom!:FormGroup
-  constructor(private formBuilder: FormBuilder) { }
+   private reclamation:Reclamation
+  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.reclamationFrom = this.formBuilder.group({
@@ -20,6 +22,11 @@ export class AddReclamationComponent implements OnInit {
       pieceJointe:['', [Validators.required]],
     });
   }
-  onSubmit(){}
+  onSubmit(){
+  
+    this.reclamationService.addReclamation(this.reclamationFrom.value).subscribe((data:any)=>{
+    
+    })
+  }
 
 }
