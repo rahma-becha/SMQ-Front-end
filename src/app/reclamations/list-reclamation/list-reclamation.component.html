@@ -37,7 +37,7 @@
                <th></th>
               </thead>
               <tbody>
-                <tr *ngfor="let reclamation of reclamations">
+                <tr *ngfor="let reclamation of reclamations |paginate: { id :'idReclamation', itemsPerPage : pageSizeT , currentPage: pageNumber}">
                   <td>
                     {{reclamation.type}}
                   </td>
@@ -61,7 +61,7 @@
                     <a class="btn btn-outline-warning  btn-sm mr-2" title="consulter"><i class="fa-solid fa-circle-info"></i></a>
                     <a class="btn btn-info btn-sm mr-2" title="Modifier" [routerLink]="['/reclamations/edit/',reclamation.idReclamation]"><i class="fas fa-edit"></i></a>
                    
-                    <a class="btn btn-danger btn-sm mr-2" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <a class="btn btn-danger btn-sm mr-2" (click)="onDeleteReclamation(reclamation.idReclamation)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
                   </td>
                 </tr>
@@ -70,6 +70,11 @@
 
               </tbody>
             </table>
+            <div class="float-right">
+              <pagination-controls class="mw-100" id="idReclamation" (pageChange)="pageNumber = $event">
+                                  
+              </pagination-controls>
+            </div>
           </div>
         </div>
       </div>

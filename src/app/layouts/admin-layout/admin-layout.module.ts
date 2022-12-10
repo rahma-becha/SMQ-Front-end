@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import { ChartsModule } from 'ng2-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -19,11 +19,11 @@ import { ListReclamationComponent } from '../../reclamations/list-reclamation/li
     ChartsModule,
     NgbModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
     ListReclamationComponent,
     ListRisquesComponent
   ]

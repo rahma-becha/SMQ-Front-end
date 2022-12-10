@@ -17,6 +17,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EditReclamationComponent } from './reclamations/edit-reclamation/edit-reclamation.component';
 import { EditRisquesComponent } from './risques/edit-risques/edit-risques.component';
 import { AddRisquesComponent } from './risques/add-risques/add-risques.component';
+import {NgxPaginationModule} from 'ngx-pagination';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -27,7 +29,8 @@ import { AddRisquesComponent } from './risques/add-risques/add-risques.component
     AppRoutingModule,
     NgbModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   declarations: [
     AppComponent,

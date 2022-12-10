@@ -25,11 +25,14 @@
                 <div class="form-group">
                   <label for="type">Type <code>*</code></label>
                   <select name="type" formControlName="type" id="type" class="form-control">
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
+                    <option value="">{{"Choisir un type"}}</option>
+                     <option value="Qualite produit">{{"Qualite produit"}}</option>
+                     <option value="Qualite service">{{"Qualite service"}}</option>
+                     <option value="Modalite de paiement">{{"Modalite de paiement"}}</option>
+                     <option value="Prix">{{"Prix"}}</option>
+                     <option value="Delais">{{"Delais"}}</option>
+                     <option value="Structure">{{"Structure"}}</option>
+
 
                   </select>
                   <span class="mt-2" *ngIf="risquesForm.controls['type'].invalid && (risquesForm.controls['type'].dirty || risquesForm.controls['type'].touched)" class="alert">
@@ -42,7 +45,7 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="niveau">Gravité <code>*</code></label>
+                  <label for="niveau">Niveau <code>*</code></label>
                   <select name="niveau" formControlName="niveau" name="niveau" id="niveau" class="form-control">
                      <option value="">{{"Choisir un niveau"}}</option>
                      <option value="">{{"Choisir un niveau"}}</option>

@@ -25,11 +25,14 @@
                 <div class="form-group">
                   <label for="type">Type <code>*</code></label>
                   <select name="type" formControlName="type" id="type" class="form-control">
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
+                    <option value="">{{"Choisir un type"}}</option>
+                    <option value="Qualite produit">{{"Qualite produit"}}</option>
+                    <option value="Qualite service">{{"Qualite service"}}</option>
+                    <option value="Modalite de paiement">{{"Modalite de paiement"}}</option>
+                    <option value="Prix">{{"Prix"}}</option>
+                    <option value="Delais">{{"Delais"}}</option>
+                    <option value="Structure">{{"Structure"}}</option>
+
 
                   </select>
                   <span class="mt-2" *ngIf="reclamationFrom.controls['type'].invalid && (reclamationFrom.controls['type'].dirty || reclamationFrom.controls['type'].touched)" class="alert">
