@@ -25,11 +25,11 @@
                 <div class="form-group">
                   <label for="type">Type <code>*</code></label>
                   <select name="type" formControlName="type" id="type" class="form-control">
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
-                     <option value="">{{"Choisir un type"}}</option>
+                     <option value="Choisir un type">{{"Choisir un type"}}</option>
+                     <option value="Choisir un type">{{"Choisir un type"}}</option>
+                     <option value="Choisir un type">{{"Choisir un type"}}</option>
+                     <option value="Choisir un type">{{"Choisir un type"}}</option>
+                     <option value="Choisir un type">{{"Choisir un type"}}</option>
 
                   </select>
                   <span class="mt-2" *ngIf="reclamationFrom.controls['type'].invalid && (reclamationFrom.controls['type'].dirty || reclamationFrom.controls['type'].touched)" class="alert">
@@ -44,11 +44,11 @@
                 <div class="form-group">
                   <label for="gravite">Gravité <code>*</code></label>
                   <select name="gravite" formControlName="gravite" name="gravite" id="gravite" class="form-control">
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
+                     <option value="Choisir une gravite">{{"Choisir une gravite"}}</option>
+                     <option value="Choisir une gravite">{{"Choisir une gravite"}}</option>
+                     <option value="Choisir une gravite">{{"Choisir une gravite"}}</option>
+                     <option value="Choisir une gravite">{{"Choisir une gravite"}}</option>
+                     <option value="Choisir une gravite">{{"Choisir une gravite"}}</option>
 
                   </select>
                   <span class="mt-2" *ngIf="reclamationFrom.controls['gravite'].invalid && (reclamationFrom.controls['gravite'].dirty || reclamationFrom.controls['gravite'].touched)" class="alert">
@@ -66,6 +66,17 @@
                   <span class="mt-2" *ngIf="reclamationFrom.controls['lieuOuPromotion'].invalid && (reclamationFrom.controls['lieuOuPromotion'].dirty || reclamationFrom.controls['lieuOuPromotion'].touched)" class="alert">
                     <span *ngIf="reclamationFrom.controls['lieuOuPromotion'].errors.required" class="text-danger">
                     {{"Le champ Source est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="pieceJointe">Piece Jointe <code>*</code></label>
+                  <input type="file" class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
+                  <span class="mt-2" *ngIf="reclamationFrom.controls['pieceJointe'].invalid && (reclamationFrom.controls['pieceJointe'].dirty || reclamationFrom.controls['pieceJointe'].touched)" class="alert">
+                    <span *ngIf="reclamationFrom.controls['pieceJointe'].errors.required" class="text-danger">
+                    {{"Le champ Piece Jointe est obligatoire"}}
                     </span>
                   </span>
                 </div>

@@ -5,7 +5,15 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">List des Risques</h4>
+          <div class="row">
+            <div class="col-md-6">
+              <h4 class="card-title">Liste des Risques</h4>
+            </div>
+            <div class="col-md-6">
+              <a routerLink="/risques/add" class="float-right btn btn-info">Ajouter</a>
+  
+            </div>
+          </div>
          
         </div>
         <div class="card-body">
@@ -30,25 +38,25 @@
                <th></th>
               </thead>
               <tbody>
-                <tr>
+                <tr *ngFor="let risque of risques">
                   <td>
-                    Dakota Rice
+                    {{risque.type}}
                   </td>
                   <td>
-                    Niger
+                    {{risque.dateDetection}}
                   </td>
                   <td>
-                    Oud-Turnhout
+                    {{risque.niveau}}
                   </td>
                   <td >
-                    $36,738
+                    {{risque.acteur}}
                   </td>
                   <td >
-                    $36,738
+                    {{risque.lieuOuPromotion}}
                   </td>
                   <td >
                     <a class="btn btn-outline-warning  btn-sm mr-2" title="consulter"><i class="fa-solid fa-circle-info"></i></a>
-                    <a class="btn btn-info btn-sm mr-2" href="/risques/edit/1" title="Modifier"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-info btn-sm mr-2" [routerLink]="['/risques/edit/',risque.idRisque]" title="Modifier"><i class="fas fa-edit"></i></a>
                     <a class="btn btn-danger btn-sm mr-2" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
                   </td>
