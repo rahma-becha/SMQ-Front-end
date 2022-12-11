@@ -21,6 +21,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { DetailsRisqueComponent } from './risques/details-risque/details-risque.component';
 import { RisqueService } from './services/risque.service';
 import { ReclamationService } from './services/reclamation.service';
+import { DetailsReclamtionComponent } from './reclamations/details-reclamtion/details-reclamtion.component';
+import { ListActionComponent } from './actionReclamations/list-action/list-action.component';
 
 @NgModule({
   imports: [
@@ -43,6 +45,8 @@ import { ReclamationService } from './services/reclamation.service';
     EditRisquesComponent,
     AddRisquesComponent,
     DetailsRisqueComponent,
+    DetailsReclamtionComponent,
+    ListActionComponent,
 
 
   ],

@@ -7,7 +7,7 @@ import { ReclamationService } from '../../services/reclamation.service';
   styleUrls: ['./list-reclamation.component.css']
 })
 export class ListReclamationComponent {
-  public reclamations=[]
+  public reclamations!:Reclamation[]
   pageSize: number = 1000000;
   pageNumber:number =0 ;
   pageSizeT= 10;
