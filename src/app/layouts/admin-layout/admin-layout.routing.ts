@@ -7,6 +7,8 @@ import { AddReclamationComponent } from '../../reclamations/add-reclamation/add-
 import { EditReclamationComponent } from '../../reclamations/edit-reclamation/edit-reclamation.component';
 import { AddRisquesComponent } from '../../risques/add-risques/add-risques.component';
 import { EditRisquesComponent } from '../../risques/edit-risques/edit-risques.component';
+import { DetailsRisqueComponent } from '../../risques/details-risque/details-risque.component'
+
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'reclamations',   component: ListReclamationComponent },
@@ -14,5 +16,7 @@ export const AdminLayoutRoutes: Routes = [
     {path:'reclamations/add',component:AddReclamationComponent},
     {path:'reclamations/edit/:id',component:EditReclamationComponent},
     { path: 'risques/add',   component: AddRisquesComponent },
-    {path:'risques/edit/:id',component:EditRisquesComponent}
+    {path:'risques/edit/:id',component:EditRisquesComponent},
+    {path:'risques/show/:id',component:DetailsRisqueComponent}
+
 ];

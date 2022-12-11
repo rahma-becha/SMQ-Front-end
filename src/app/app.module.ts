@@ -18,6 +18,9 @@ import { EditReclamationComponent } from './reclamations/edit-reclamation/edit-r
 import { EditRisquesComponent } from './risques/edit-risques/edit-risques.component';
 import { AddRisquesComponent } from './risques/add-risques/add-risques.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { DetailsRisqueComponent } from './risques/details-risque/details-risque.component';
+import { RisqueService } from './services/risque.service';
+import { ReclamationService } from './services/reclamation.service';
 
 @NgModule({
   imports: [
@@ -39,10 +42,11 @@ import {NgxPaginationModule} from 'ngx-pagination';
     EditReclamationComponent,
     EditRisquesComponent,
     AddRisquesComponent,
+    DetailsRisqueComponent,
 
 
   ],
-  providers: [],
+  providers: [RisqueService,ReclamationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

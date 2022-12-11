@@ -7,7 +7,7 @@ import { ReclamationService } from '../../services/reclamation.service';
   styleUrls: ['./list-reclamation.component.css']
 })
 export class ListReclamationComponent {
-  reclamations:Reclamation[]=[]
+  public reclamations=[]
   pageSize: number = 1000000;
   pageNumber:number =0 ;
   pageSizeT= 10;
@@ -16,15 +16,14 @@ export class ListReclamationComponent {
   tableSizes: number[] = [3, 6, 9, 12];
   constructor(private reclamationService:ReclamationService) { }
 
-  ngOnInit() {
-    this.pageSizeT= 10;
-    this.getListReclamtions(this.pageNumber ,this. pageSize)
-  }
+
   getListReclamtions(pageNumber,pageSize){
     this.reclamationService.getReclamations(pageNumber,pageSize).subscribe((data:Reclamation[])=>{
-     return this.reclamations=data
+       /*data.forEach(d=>{
+        this.reclamations.push(d)
+       })*/
+       this.reclamations=data
     })
-    console.log(this.reclamations)
 
   }
   handlePageSizeChange(event: any): void {
@@ -53,5 +52,11 @@ export class ListReclamationComponent {
         },
         error: (e) => console.error(e)
       });
+  }
+  ngOnInit() {
+    this.pageSizeT= 10;
+    this.getListReclamtions(this.pageNumber ,this. pageSize)
+    console.log(this.reclamations)
+
   }
 }

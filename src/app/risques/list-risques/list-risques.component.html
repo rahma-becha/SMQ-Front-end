@@ -55,7 +55,7 @@
                     {{risque.lieuOuPromotion}}
                   </td>
                   <td >
-                    <a class="btn btn-outline-warning  btn-sm mr-2" title="consulter"><i class="fa-solid fa-circle-info"></i></a>
+                    <a class="btn btn-outline-warning  btn-sm mr-2" title="consulter" [routerLink]="['/risques/show/',risque.idRisque]"><i class="fa-solid fa-circle-info"></i></a>
                     <a class="btn btn-info btn-sm mr-2" [routerLink]="['/risques/edit/',risque.idRisque]" title="Modifier"><i class="fas fa-edit"></i></a>
                     <a class="btn btn-danger btn-sm mr-2" (click)="onDeleteRisque(risque.idRisque)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
