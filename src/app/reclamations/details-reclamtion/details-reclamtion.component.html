@@ -47,11 +47,11 @@
                 <div class="form-group">
                   <label for="gravite">Gravité <code>*</code></label>
                   <select name="gravite" readonly formControlName="gravite" name="gravite" id="gravite" class="form-control">
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
-                     <option value="">{{"Choisir une gravite"}}</option>
+                    <option value="">Choisir gravite</option>
+                    <option value="Pas grave">{{"Pas grave"}}</option>
+                    <option value="Moyen">{{"Moyen"}}</option>
+                    <option value="Grave">{{"Grave"}}</option>
+                    <option value="Três grave">{{"Três grave"}}</option>
 
                   </select>
                   <span class="mt-2" *ngIf="reclamationFrom.controls['gravite'].invalid && (reclamationFrom.controls['gravite'].dirty || reclamationFrom.controls['gravite'].touched)" class="alert">

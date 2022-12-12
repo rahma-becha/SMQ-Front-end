@@ -20,11 +20,12 @@ export class ListRisquesComponent {
     this.pageSizeT= 10;
 
     this.getListRisques(this.pageNumber ,this. pageSize);
-    console.log(this.risques)
   }
   getListRisques(pageNumber,pageSize){
     this.risqueService.getRisques(pageNumber,pageSize).subscribe((data:Risque[])=>{
       this.risques=data
+      console.log(this.risques)
+
     })
   }
   handlePageSizeChange(event: any): void {

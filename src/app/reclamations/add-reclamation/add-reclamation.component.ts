@@ -10,6 +10,7 @@ import { ReclamationService } from '../../services/reclamation.service';
 export class AddReclamationComponent implements OnInit {
    public reclamationFrom!:FormGroup
    private reclamation:Reclamation
+   file:File
   constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -28,5 +29,8 @@ export class AddReclamationComponent implements OnInit {
     
     })
   }
+  onChange(event) {
+    this.file = event.target.files[0];
+}
 
 }
