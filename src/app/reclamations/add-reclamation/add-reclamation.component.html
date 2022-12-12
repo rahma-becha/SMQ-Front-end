@@ -8,7 +8,7 @@
           <h5 class="title">Ajouter une Reclamation</h5>
         </div>
         <div class="card-body">
-          <form [formGroup]="reclamationFrom" (ngSubmit)="onSubmit()" novalidate>
+          <form [formGroup]="reclamationFrom" (ngSubmit)="onSubmit()" novalidate enctype="multipart/form-data">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -73,13 +73,9 @@
               </div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="pieceJointe">Piece Jointe <code>*</code></label>
-                  <input type="file" class="form-control"  formControlName="pieceJointe"  name="pieceJointe" id="pieceJointe">
-                  <span class="mt-2" *ngIf="reclamationFrom.controls['pieceJointe'].invalid && (reclamationFrom.controls['pieceJointe'].dirty || reclamationFrom.controls['pieceJointe'].touched)" class="alert">
-                    <span *ngIf="reclamationFrom.controls['pieceJointe'].errors.required" class="text-danger">
-                    {{"Le champ Piece Jointe est obligatoire"}}
-                    </span>
-                  </span>
+                  <label for="pieceJointe">Piece Jointe </label>
+                  <input type="file" (change)="onUploadFiles($event.target.files)" class="form-control"    name="pieceJointe" id="pieceJointe">
+                  
                 </div>
               </div>
               <div class="col-md-12">

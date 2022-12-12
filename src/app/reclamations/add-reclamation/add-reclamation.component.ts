@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms'
 import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
+import { PieceJointeService } from '../../services/pieceJointe.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'add-reclamation',
   templateUrl: './add-reclamation.component.html',
@@ -11,7 +13,7 @@ export class AddReclamationComponent implements OnInit {
    public reclamationFrom!:FormGroup
    private reclamation:Reclamation
    file:File
-  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder) { }
+  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService) { }
 
   ngOnInit(): void {
     this.reclamationFrom = this.formBuilder.group({
@@ -20,7 +22,7 @@ export class AddReclamationComponent implements OnInit {
       gravite: ['', [Validators.required]],
       description: ['', [Validators.required]],
       lieuOuPromotion: ['', [Validators.required]],
-      pieceJointe:['', [Validators.required]],
+     // pieceJointe:['', [Validators.required]],
     });
   }
   onSubmit(){
@@ -29,8 +31,21 @@ export class AddReclamationComponent implements OnInit {
     
     })
   }
-  onChange(event) {
-    this.file = event.target.files[0];
-}
+  
+  onUploadFiles(files: File[]): void {
+    const formData = new FormData();
+    //this.name=files[0].name;
+    for (const file of files) { formData.append('files', file, file.name); }
+    this.pieceJointeService.upload(formData).subscribe(
+      event => {
+        console.log(event);
+       // this.resportProgress(event);
+        
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
 
 }
