@@ -13,7 +13,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="dateDetection">Date de Detetction <code>*</code></label>
-                  <input type="Date" class="form-control" formControlName="dateDetection" name="dateDetection" id="dateDetection">
+                  <input type="datetime-local" class="form-control" formControlName="dateDetection" name="dateDetection" id="dateDetection">
                   <span class="mt-2" *ngIf="reclamationFrom.controls['dateDetection'].invalid && (reclamationFrom.controls['dateDetection'].dirty || reclamationFrom.controls['dateDetection'].touched)" class="alert">
                     <span *ngIf="reclamationFrom.controls['dateDetection'].errors.required" class="text-danger">
                     {{"Le champ date de detction est obligatoire"}}
@@ -71,7 +71,25 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="acteur">Acteur <code>*</code></label>
+                  <select name="acteur" formControlName="acteur" id="acteur" class="form-control">
+                    <option value="">{{"Choisir un acteur"}}</option>
+                     <option value="Administrateur">{{"Administrateur"}}</option>
+                     <option value="Professeur">{{"Professeur"}}</option>
+                     <option value="Etudiant">{{"Etudiant"}}</option>
+
+
+                  </select>
+                  <span class="mt-2" *ngIf="reclamationFrom.controls['acteur'].invalid && (reclamationFrom.controls['acteur'].dirty || reclamationFrom.controls['acteur'].touched)" class="alert">
+                    <span *ngIf="reclamationFrom.controls['acteur'].errors.required" class="text-danger">
+                    {{"Le champ Acteur est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="pieceJointe">Piece Jointe </label>
                   <input type="file" (change)="onUploadFiles($event.target.files)" class="form-control"    name="pieceJointe" id="pieceJointe">

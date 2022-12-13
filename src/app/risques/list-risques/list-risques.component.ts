@@ -11,9 +11,7 @@ export class ListRisquesComponent {
   pageSize: number = 1000000;
   pageNumber:number =0 ;
   pageSizeT= 10;
-  filenames: string[] = [];
-  pageSizes = [3, 6, 9];
-  tableSizes: number[] = [3, 6, 9, 12];
+  
   constructor(private risqueService:RisqueService) { }
 
   ngOnInit() {

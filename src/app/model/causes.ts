@@ -5,6 +5,6 @@ export interface Causes{
     descriptionCause?:String;
     nature?:String;
     dateCreation?:Date;
-    reclamation?:Reclamation;
+    reclamationDto?:Reclamation;
     actionReclamation?:ActionReclamation[];
 }

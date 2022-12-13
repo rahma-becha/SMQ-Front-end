@@ -4,6 +4,7 @@ import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
 import { PieceJointeService } from '../../services/pieceJointe.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'add-reclamation',
   templateUrl: './add-reclamation.component.html',
@@ -13,7 +14,7 @@ export class AddReclamationComponent implements OnInit {
    public reclamationFrom!:FormGroup
    private reclamation:Reclamation
    file:File
-  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService) { }
+  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService, private router:Router) { }
 
   ngOnInit(): void {
     this.reclamationFrom = this.formBuilder.group({
@@ -22,6 +23,8 @@ export class AddReclamationComponent implements OnInit {
       gravite: ['', [Validators.required]],
       description: ['', [Validators.required]],
       lieuOuPromotion: ['', [Validators.required]],
+      acteur: ['', [Validators.required]],
+
      // pieceJointe:['', [Validators.required]],
     });
   }
@@ -29,8 +32,13 @@ export class AddReclamationComponent implements OnInit {
   
     this.reclamationService.addReclamation(this.reclamationFrom.value).subscribe((data:any)=>{
     
+      this.getAllReclamation()
     })
-  }
+    }
+    getAllReclamation(): void {
+      
+      this.router.navigate(['/reclamations']);
+    }
   
   onUploadFiles(files: File[]): void {
     const formData = new FormData();

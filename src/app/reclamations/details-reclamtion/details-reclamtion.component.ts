@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup,Validators } from '@angular/forms'
 import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
 import { ActivatedRoute } from '@angular/router';
+import { Causes } from '../../model/causes';
+import { CauseService } from '../../services/cause.service';
+import { Consequances } from '../../model/consequances';
+import { ConsequanceService } from '../../services/consequence.service';
 @Component({
   selector: 'details-reclamtion',
   templateUrl: './details-reclamtion.component.html',
@@ -13,12 +17,22 @@ export class DetailsReclamtionComponent implements OnInit {
   public reclamationFrom!:FormGroup
   public causeForm:FormGroup
   public consequenceForm:FormGroup
-  private reclamation:Reclamation
-  private id:number
-  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute) { }
-  displayStyleCause:String
-  displayStyleConsequeance:String
+  public consequenceFormEdit:FormGroup
+  public causeFormEdit:FormGroup
 
+  private id:number
+  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute,private causeService:CauseService,private consequanceService:ConsequanceService) { }
+  displayStyleCauseAdd:String
+  displayStyleConsequeanceAdd:String
+  displayStyleConsequeanceEdit:String
+  public causes:Causes[];
+  public consequences:Consequances[]
+  pageSize: number = 1000000;
+  pageNumber:number =0 ;
+  pageSizeT= 10;
+  idConsequences=null
+  idCause=null
+  displayStyleCauseEdit
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
     this.reclamationFrom = this.formBuilder.group({
@@ -34,13 +48,29 @@ export class DetailsReclamtionComponent implements OnInit {
       dateCreation: ["", [Validators.required]],
       descriptionCause: ["", [Validators.required]],
       nature: ["", [Validators.required]],
+      reclamation:["",[Validators.required]]
+    });
+    this.causeFormEdit = this.formBuilder.group({
+      dateCreation: ["", [Validators.required]],
+      descriptionCause: ["", [Validators.required]],
+      nature: ["", [Validators.required]],
+      reclamation:["",[Validators.required]]
     });
     this.consequenceForm = this.formBuilder.group({
       dateCreation: ["", [Validators.required]],
-      descriptionCause: ["", [Validators.required]],
+      descriptionConsequances: ["", [Validators.required]],
+      reclamation:["",[Validators.required]]
+
+    });
+    this.consequenceFormEdit = this.formBuilder.group({
+      dateCreation: ["", [Validators.required]],
+      descriptionConsequances: ["", [Validators.required]],
+      reclamation:["",[Validators.required]]
+
     });
     this.getReclamation(this.id)
-
+    this.getConsequences(this.id,this.pageNumber,this.pageSize)
+    this.getCauses(this.id,this.pageNumber,this.pageSize)
   }
   getReclamation(id:number)
   {
@@ -50,27 +80,119 @@ export class DetailsReclamtionComponent implements OnInit {
       this.reclamationFrom.controls['gravite'].setValue(data.gravite)
       this.reclamationFrom.controls['description'].setValue(data.description)
       this.reclamationFrom.controls['lieuOuPromotion'].setValue(data.lieuOuPromotion)
+      this.causeForm.controls['reclamation'].setValue(data)
+      this.consequenceForm.controls['reclamation'].setValue(data)
+      this.consequenceFormEdit.controls['reclamation'].setValue(data)
+      this.causeFormEdit.controls['reclamation'].setValue(data)
+
      })
   }
-  onSubmit(){
-    this.reclamationService.editReclamation(this.reclamationFrom.value,this.id).subscribe((data:any)=>{
+  openPopupAddCause() {
+    this.displayStyleCauseAdd = "block";
+    const bodyTag = document.body;
+    bodyTag.classList.add('modal-open');
+  }
+  closePopupAddCause() {
+    this.displayStyleCauseAdd = "none";
+  }
+  openPopupAddConsequeance() {
+    this.displayStyleConsequeanceAdd = "block";
+    const bodyTag = document.body;
+    bodyTag.classList.add('modal-open');
+  }
+  closePopuAddConsequeance() {
+    this.displayStyleConsequeanceAdd = "none";
+  }
+  getCauses(id:number,pageNumber:number,pageSize:number){
+     this.causeService.getCauses(pageNumber,pageSize).subscribe((data:Causes[])=>{
+         this.causes=data.filter(item=>item.reclamationDto.idReclamation==id)
+         console.log(this.causes)
+     })
+  }
+
+  getConsequences(id:number,pageNumber:number,pageSize:number){
+    this.consequanceService.getConsequances(pageNumber,pageSize).subscribe((data:Consequances[])=>{
+        this.consequences=data.filter(item=>item.reclamationDto.idReclamation==id)
+        console.log(this.consequences)
+    })
+ }
+
+ submitAddCauses(){
+  this.causeService.addCause(this.causeForm.value).subscribe((data:Causes)=>{
+    this.causeForm.reset()
+    this.closePopupAddCause()
+    this.getCauses(this.id,this.pageNumber,this.pageSize)
+  })
+ }
+
+ submitAddConsequeces(){
+  this.consequanceService.addConsequance(this.consequenceForm.value).subscribe((data:Causes)=>{
+    this.causeForm.reset()
+    this.closePopuAddConsequeance()
+    this.getConsequences(this.id,this.pageNumber,this.pageSize)
+  })
+ }
+
+ deleteCause(id:number){
+  this.causeService.deleteCause(id).subscribe(data=>{
+    this.getCauses(this.id,this.pageNumber,this.pageSize)
+  })
+ }
+ deleteConsequence(id:number){
+  this.consequanceService.deleteConsequance(id).subscribe(data=>{
+    this.getConsequences(this.id,this.pageNumber,this.pageSize)
+  })
+ }
+ // consequences edit
+ openPopupEditConsequeance(id:number) {
+  this.idConsequences=id
+  this.getConsequecneById(id)
+  this.displayStyleConsequeanceEdit = "block";
+  const bodyTag = document.body;
+  bodyTag.classList.add('modal-open');
+}
+closePopuEditConsequeance() {
+  this.displayStyleConsequeanceEdit = "none";
+}
+getConsequecneById(id){
+  this.consequanceService.getConsequanceById(id).subscribe((data:Consequances)=>{
+    this.consequenceFormEdit.controls["dateCreation"].setValue(data.dateCreation)
+    this.consequenceFormEdit.controls["descriptionConsequances"].setValue(data.descriptionConsequances)
 
   })
-  }
-  openPopupCause() {
-    this.displayStyleCause = "block";
-    const bodyTag = document.body;
-    bodyTag.classList.add('modal-open');
-  }
-  closePopupCause() {
-    this.displayStyleCause = "none";
-  }
-  openPopupConsequeance() {
-    this.displayStyleConsequeance = "block";
-    const bodyTag = document.body;
-    bodyTag.classList.add('modal-open');
-  }
-  closePopuConsequeance() {
-    this.displayStyleConsequeance = "none";
-  }
+}
+submitEditConsequeces(){
+   this.consequanceService.editConsequances(this.consequenceFormEdit.value,this.idConsequences).subscribe((data)=>{
+    this.consequenceFormEdit.reset()
+    this.closePopuEditConsequeance()
+    this.getConsequences(this.id,this.pageNumber,this.pageSize)  
+    })
+}
+
+
+//causes edit
+openPopupEditCause(id:number) {
+  this.idCause=id
+  this.getCauseById(id)
+  this.displayStyleCauseEdit = "block";
+  const bodyTag = document.body;
+  bodyTag.classList.add('modal-open');
+}
+closePopupEditCause() {
+  this.displayStyleCauseEdit = "none";
+}
+getCauseById(id){
+  this.causeService.getCausesById(id).subscribe((data:Causes)=>{
+    this.causeFormEdit.controls["dateCreation"].setValue(data.dateCreation)
+    this.causeFormEdit.controls["descriptionCause"].setValue(data.descriptionCause)
+    this.causeFormEdit.controls["nature"].setValue(data.nature)
+  })
+}
+submitEditCauses(){
+   this.causeService.editCauses(this.causeFormEdit.value,this.idCause).subscribe((data)=>{
+    this.causeFormEdit.reset()
+    this.closePopupEditCause()
+    this.getCauses(this.id,this.pageNumber,this.pageSize)  
+    })
+}
 }

@@ -13,7 +13,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="dateDetection">Date de Detetction <code>*</code></label>
-                  <input type="Date" class="form-control" formControlName="dateDetection" name="dateDetection" id="dateDetection">
+                  <input type="datetime-local" class="form-control" formControlName="dateDetection" name="dateDetection" id="dateDetection">
                   <span class="mt-2" *ngIf="risquesForm.controls['dateDetection'].invalid && (risquesForm.controls['dateDetection'].dirty || risquesForm.controls['dateDetection'].touched)" class="alert">
                     <span *ngIf="risquesForm.controls['dateDetection'].errors.required" class="text-danger">
                     {{"Le champ date de detction est obligatoire"}}
@@ -61,7 +61,24 @@
                   </span>
                 </div>
               </div>
-             
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="acteur">Acteur <code>*</code></label>
+                  <select name="acteur" formControlName="acteur" id="acteur" class="form-control">
+                    <option value="">{{"Choisir un acteur"}}</option>
+                     <option value="Administrateur">{{"Administrateur"}}</option>
+                     <option value="Professeur">{{"Professeur"}}</option>
+                     <option value="Etudiant">{{"Etudiant"}}</option>
+
+
+                  </select>
+                  <span class="mt-2" *ngIf="risquesForm.controls['acteur'].invalid && (risquesForm.controls['acteur'].dirty || risquesForm.controls['acteur'].touched)" class="alert">
+                    <span *ngIf="risquesForm.controls['acteur'].errors.required" class="text-danger">
+                    {{"Le champ Acteur est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="lieuOuPromotion">Source <code>*</code></label>
@@ -73,7 +90,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="evolution">evolution <code>*</code></label>
                   <input type="text" class="form-control" formControlName="evolution" name="evolution" id="evolution">

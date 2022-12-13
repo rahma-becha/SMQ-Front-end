@@ -5,5 +5,5 @@ export interface ActionReclamation{
      responsable?:String;
      cin?:String;
      dateDecision?:Date;
-     causes?:Causes;
+     causesDto?:Causes;
 }

@@ -10,7 +10,7 @@
               <h4 class="card-title">Liste des Actions Reclamation</h4>
             </div>
             <div class="col-md-6">
-              <a (click)="openPopup()"class="float-right btn btn-info">Ajouter Action</a>
+              <a (click)="openPopupAdd()"class="float-right btn btn-info">Ajouter Action</a>
   
             </div>
           </div>
@@ -37,33 +37,30 @@
               </thead>
               <tbody>
 
-                <tr>
-                <td>
-                  cin
-                </td>
-                <td>
-                  responsable
-                </td>
-                <td >
-                 date Decision
-                </td>
-                <td>
-                  Decision
-                </td>
-                <td >
-                  <a class="btn btn-info btn-sm mr-2"  title="Modifier"><i class="fas fa-edit"></i></a>
-                  <a class="btn btn-danger btn-sm mr-2" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                <tr *ngFor="let action of actionReclamations">
+                  <td>
+                    {{action.cin}}
+                  </td>
+                  <td>
+                    {{action.responsable}}
+                  </td>
+                  <td >
+                    {{action.dateDecision | date}}
+                  </td>
+                  <td>
+                    {{action.libelle}}
+                  </td>
+                  <td >
+                    <a class="btn btn-info btn-sm mr-2" (click)="openPopupEdit(action.idDecision)"  title="Modifier"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger btn-sm mr-2" (click)="onDeleteActionReclamation(action.idDecision)" title="Supprimer"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
-                </td>
-              </tr>
+                  </td>
+                </tr>
+
 
               </tbody>
             </table>
-            <div class="float-right">
-              <pagination-controls class="mw-100" id="idRisque" >
-                                  
-              </pagination-controls>
-            </div>
+
           </div>
         </div>
       </div>
@@ -95,17 +92,17 @@
     </div>
   </div>
 </div>-->
-<div class="modal"  [ngStyle]="{'display':displayStyle}" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal"  [ngStyle]="{'display':displayStyleAdd}" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Action</h5>
-        <button type="button" (click)="closePopup()" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTite}}</h5>
+        <button type="button" (click)="closePopupAdd()" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form  [formGroup]="actionFormGroup">
+        <form  [formGroup]="actionFormGroup" (ngSubmit)="onSubmitAddActionRisque()">
           <div class="row">
             <div class="col-md-12">
               <div class="form-group">
@@ -132,7 +129,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="dateDecision">Date Decision<code>*</code></label>
-                <input type="date"  class="form-control" formControlName="dateDecision" name="dateDecision" id="dateDecision">
+                <input type="datetime-local"  class="form-control" formControlName="dateDecision" name="dateDecision" id="dateDecision">
                 <span class="mt-2" *ngIf="actionFormGroup.controls['dateDecision'].invalid && (actionFormGroup.controls['dateDecision'].dirty || actionFormGroup.controls['dateDecision'].touched)" class="alert">
                   <span *ngIf="actionFormGroup.controls['dateDecision'].errors.required" class="text-danger">
                   {{"Le champ Date Decision est obligatoire"}}
@@ -146,6 +143,74 @@
                 <textarea  formControlName="libelle" name="libelle" id="libelle" rows="4" cols="80" class="form-control" placeholder="Here can be your libelle" ></textarea>
                 <span class="mt-2" *ngIf="actionFormGroup.controls['libelle'].invalid && (actionFormGroup.controls['libelle'].dirty || actionFormGroup.controls['libelle'].touched)" class="alert">
                   <span *ngIf="actionFormGroup.controls['libelle'].errors.required" class="text-danger">
+                  {{"Le champ Decision est obligatoire"}}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="float-right">
+              <button class="btn btn-success">Valider</button>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="modal"  [ngStyle]="{'display':displayStyleEdit}" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{modalTite}}</h5>
+        <button type="button" (click)="closePopupEdit()" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  [formGroup]="actionFormGroupEdit" (ngSubmit)="onSubmitEditActionRisque()">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="cin">CIN <code>*</code></label>
+                <input type="text"  class="form-control" formControlName="cin" name="cin" id="cin">
+                <span class="mt-2" *ngIf="actionFormGroupEdit.controls['cin'].invalid && (actionFormGroupEdit.controls['cin'].dirty || actionFormGroupEdit.controls['cin'].touched)" class="alert">
+                  <span *ngIf="actionFormGroupEdit.controls['cin'].errors.required" class="text-danger">
+                  {{"Le champ CIN est obligatoire"}}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="responsable">Responsable <code>*</code></label>
+                <input type="text"  class="form-control" formControlName="responsable" name="responsable" id="responsable">
+                <span class="mt-2" *ngIf="actionFormGroupEdit.controls['responsable'].invalid && (actionFormGroupEdit.controls['responsable'].dirty || actionFormGroupEdit.controls['responsable'].touched)" class="alert">
+                  <span *ngIf="actionFormGroupEdit.controls['responsable'].errors.required" class="text-danger">
+                  {{"Le champ Responsable est obligatoire"}}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="dateDecision">Date Decision<code>*</code></label>
+                <input type="datetime-local"  class="form-control" formControlName="dateDecision" name="dateDecision" id="dateDecision">
+                <span class="mt-2" *ngIf="actionFormGroupEdit.controls['dateDecision'].invalid && (actionFormGroupEdit.controls['dateDecision'].dirty || actionFormGroupEdit.controls['dateDecision'].touched)" class="alert">
+                  <span *ngIf="actionFormGroupEdit.controls['dateDecision'].errors.required" class="text-danger">
+                  {{"Le champ Date Decision est obligatoire"}}
+                  </span>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="libelle">Decision <code>*</code></label>
+                <textarea  formControlName="libelle" name="libelle" id="libelle" rows="4" cols="80" class="form-control" placeholder="Here can be your libelle" ></textarea>
+                <span class="mt-2" *ngIf="actionFormGroupEdit.controls['libelle'].invalid && (actionFormGroupEdit.controls['libelle'].dirty || actionFormGroupEdit.controls['libelle'].touched)" class="alert">
+                  <span *ngIf="actionFormGroupEdit.controls['libelle'].errors.required" class="text-danger">
                   {{"Le champ Decision est obligatoire"}}
                   </span>
                 </span>

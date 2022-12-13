@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup,Validators } from '@angular/forms'
 import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'edit-reclamation',
@@ -14,7 +15,7 @@ export class EditReclamationComponent implements OnInit {
   public reclamationFrom!:FormGroup
   private reclamation:Reclamation
   private id:number
-  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute) { }
+  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute, private router:Router) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -25,6 +26,7 @@ export class EditReclamationComponent implements OnInit {
       description: ["", [Validators.required]],
       lieuOuPromotion: ["", [Validators.required]],
       pieceJointe:['', [Validators.required]],
+      acteur:['', [Validators.required]],
 
     });
     this.getReclamation(this.id)
@@ -38,11 +40,17 @@ export class EditReclamationComponent implements OnInit {
       this.reclamationFrom.controls['gravite'].setValue(data.gravite)
       this.reclamationFrom.controls['description'].setValue(data.description)
       this.reclamationFrom.controls['lieuOuPromotion'].setValue(data.lieuOuPromotion)
+      this.reclamationFrom.controls['acteur'].setValue(data.acteur)
+
      })
   }
   onSubmit(){
     this.reclamationService.editReclamation(this.reclamationFrom.value,this.id).subscribe((data:any)=>{
-
-  })
-  }
+      this.getAllReclamation()
+    })
+    }
+    getAllReclamation(): void {
+      
+      this.router.navigate(['/reclamations']);
+    }
 }
