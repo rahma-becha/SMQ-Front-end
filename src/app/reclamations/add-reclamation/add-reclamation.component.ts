@@ -6,6 +6,7 @@ import { PieceJointeService } from '../../services/pieceJointe.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { PieceJointe } from '../../model/pieceJointe';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'add-reclamation',
   templateUrl: './add-reclamation.component.html',
@@ -17,7 +18,7 @@ export class AddReclamationComponent implements OnInit {
    file:File
    //name:String
    pieceJointe:PieceJointe={name:''}
-  constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService, private router:Router) { }
+  constructor(private toastr: ToastrService,private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService, private router:Router) { }
 
   ngOnInit(): void {
     this.reclamationFrom = this.formBuilder.group({
@@ -27,13 +28,13 @@ export class AddReclamationComponent implements OnInit {
       description: ['', [Validators.required]],
       lieuOuPromotion: ['', [Validators.required]],
       acteur: ['', [Validators.required]],
-      pieceJointe:['', [Validators.required]],
+   //   pieceJointe:['', [Validators.required]],
     });
   }
   onSubmit(){
   
     this.reclamationService.addReclamation(this.reclamationFrom.value).subscribe((data:any)=>{
-    
+      this.showNotification()
       this.getAllReclamation()
     })
     }
@@ -65,5 +66,15 @@ export class AddReclamationComponent implements OnInit {
     this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
       this.reclamationFrom.controls['pieceJointe'].setValue(data)
     })
+  }
+  showNotification(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Ajout est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+
   }
 }

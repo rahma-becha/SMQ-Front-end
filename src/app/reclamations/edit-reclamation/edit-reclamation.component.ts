@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { PieceJointe } from '../../model/pieceJointe';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PieceJointeService } from '../../services/pieceJointe.service';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'edit-reclamation',
   templateUrl: './edit-reclamation.component.html',
@@ -17,8 +19,8 @@ export class EditReclamationComponent implements OnInit {
   public reclamationFrom!:FormGroup
   private reclamation:Reclamation
   private id:number
-  pieceJointe:PieceJointe
-  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute, private pieceJointeService:PieceJointeService, private router:Router) { }
+  pieceJointe:PieceJointe={name:''}
+  constructor(private toastr: ToastrService, private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute, private pieceJointeService:PieceJointeService, private router:Router) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -28,7 +30,7 @@ export class EditReclamationComponent implements OnInit {
       gravite: ["", [Validators.required]],
       description: ["", [Validators.required]],
       lieuOuPromotion: ["", [Validators.required]],
-      pieceJointe:['', [Validators.required]],
+     // pieceJointe:['', [Validators.required]],
       acteur:['', [Validators.required]],
 
     });
@@ -50,6 +52,7 @@ export class EditReclamationComponent implements OnInit {
   onSubmit(){
     this.reclamationService.editReclamation(this.reclamationFrom.value,this.id).subscribe((data:any)=>{
       this.getAllReclamation()
+      this.showNotification()
     })
     }
     getAllReclamation(): void {
@@ -81,5 +84,16 @@ export class EditReclamationComponent implements OnInit {
     this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
       this.reclamationFrom.controls['pieceJointe'].setValue(data)
     })
+  }
+
+  showNotification(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Modification est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+
   }
 }

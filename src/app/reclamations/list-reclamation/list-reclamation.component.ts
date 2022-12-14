@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService}  from 'ngx-toastr';
+
 @Component({
   selector: 'app-list-reclamation',
   templateUrl: './list-reclamation.component.html',
@@ -15,7 +17,7 @@ export class ListReclamationComponent {
   filenames: string[] = [];
   pageSizes = [3, 6, 9];
   tableSizes: number[] = [3, 6, 9, 12];
-  constructor(private reclamationService:ReclamationService) { }
+  constructor(private toastr: ToastrService,private reclamationService:ReclamationService) { }
   ngOnInit() {
     this.pageSizeT= 10;
     this.getReclamation(this.pageNumber ,this. pageSize)
@@ -62,13 +64,26 @@ export class ListReclamationComponent {
       });
   }
   onDeleteReclamation(id: any): void {
+    var result = confirm("Vous etes sure de supprimer cette reclamation");
+    if(result){
     this.reclamationService.deleteReclamation(id)
       .subscribe({
         next: (res) => {
           this.retrieveReclalations()
+          this.showNotificationDelete()
         },
         error: (e) => console.error(e)
       });
+    }
   }
+  showNotificationDelete(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Suppression est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
   
+  }
 }

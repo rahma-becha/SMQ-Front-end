@@ -61,8 +61,25 @@
                   </span>
                 </div>
               </div>
-             
               <div class="col-md-6">
+                <div class="form-group">
+                  <label for="acteur">Acteur <code>*</code></label>
+                  <select name="acteur" readonly formControlName="acteur" id="acteur" class="form-control">
+                    <option value="">{{"Choisir un acteur"}}</option>
+                     <option value="Administrateur">{{"Administrateur"}}</option>
+                     <option value="Professeur">{{"Professeur"}}</option>
+                     <option value="Etudiant">{{"Etudiant"}}</option>
+
+
+                  </select>
+                  <span class="mt-2" *ngIf="reclamationFrom.controls['acteur'].invalid && (reclamationFrom.controls['acteur'].dirty || reclamationFrom.controls['acteur'].touched)" class="alert">
+                    <span *ngIf="reclamationFrom.controls['acteur'].errors.required" class="text-danger">
+                    {{"Le champ Acteur est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-12">
                 <div class="form-group">
                   <label for="lieuOuPromotion">Source <code>*</code></label>
                   <input type="text" readonly class="form-control" formControlName="lieuOuPromotion" name="lieuOuPromotion" id="lieuOuPromotion">
@@ -73,7 +90,7 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-12">
+              <!--<div class="col-md-12">
                 <div class="form-group">
                   <label for="pieceJointe">Piece Jointe <code>*</code></label>
                   <input type="file" readonly class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
@@ -83,7 +100,7 @@
                     </span>
                   </span>
                 </div>
-              </div>
+              </div>-->
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="description">Description <code>*</code></label>

@@ -48,12 +48,11 @@
                 <div class="form-group">
                   <label for="niveau">Niveau <code>*</code></label>
                   <select readonly name="niveau" formControlName="niveau" name="niveau" id="niveau" class="form-control">
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-
+                    <option value="">{{"Choisir un niveau"}}</option>
+                    <option value="Aucun Risque">{{"Aucun Risque"}}</option>
+                    <option value="Risque mineur">{{"Risque mineur"}}</option>
+                    <option value="Risque majeur">{{"Risque majeur"}}</option>
+                    <option value="Risque mettant en jeu la securite des personnes">{{"Risque mettant en jeu la securite des personnes"}}</option>
                   </select>
                   <span class="mt-2" *ngIf="risquesForm.controls['niveau'].invalid && (risquesForm.controls['niveau'].dirty || risquesForm.controls['niveau'].touched)" class="alert">
                     <span *ngIf="risquesForm.controls['niveau'].errors.required" class="text-danger">
@@ -62,7 +61,24 @@
                   </span>
                 </div>
               </div>
-             
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="acteur">Acteur <code>*</code></label>
+                  <select name="acteur" readonly formControlName="acteur" id="acteur" class="form-control">
+                    <option value="">{{"Choisir un acteur"}}</option>
+                     <option value="Administrateur">{{"Administrateur"}}</option>
+                     <option value="Professeur">{{"Professeur"}}</option>
+                     <option value="Etudiant">{{"Etudiant"}}</option>
+
+
+                  </select>
+                  <span class="mt-2" *ngIf="risquesForm.controls['acteur'].invalid && (risquesForm.controls['acteur'].dirty || risquesForm.controls['acteur'].touched)" class="alert">
+                    <span *ngIf="risquesForm.controls['acteur'].errors.required" class="text-danger">
+                    {{"Le champ Acteur est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="lieuOuPromotion">Source <code>*</code></label>
@@ -74,18 +90,22 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="evolution">evolution <code>*</code></label>
-                  <input type="text" readonly class="form-control" formControlName="evolution" name="evolution" id="evolution">
-                  <span class="mt-2" *ngIf="risquesForm.controls['evolution'].invalid && (risquesForm.controls['evolution'].dirty || risquesForm.controls['evolution'].touched)" class="alert">
-                    <span *ngIf="risquesForm.controls['evolution'].errors.required" class="text-danger">
-                    {{"Le champ evolution est obligatoire"}}
-                    </span>
-                  </span>
+                  <select name="evolution" readonly formControlName="evolution" id="evolution" class="form-control">
+                    <option value="">{{"Choisir une evolution"}}</option>
+                     <option value="Evolution vers moins de risque">{{"Evolution vers moins de risque"}}</option>
+                     <option value="Pas de changement">{{"Pas de changement"}}</option>
+                     <option value="Evolution vers plus de risque">{{"Evolution vers plus de risque"}}</option>
+
+
+                  </select>
                 </div>
               </div>
-              <div class="col-md-12">
+              
+            
+              <!--<div class="col-md-12">
                 <div class="form-group">
                   <label for="pieceJointe">Piece Jointe <code>*</code></label>
                   <input type="file" readonly class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
@@ -95,7 +115,7 @@
                     </span>
                   </span>
                 </div>
-              </div>
+              </div>-->
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="description">Description <code>*</code></label>

@@ -5,6 +5,8 @@ import { ActionReclamation } from '../../model/actionReclamation';
 import { ActionReclamationService } from '../../services/actionReclamation.service';
 import { Causes } from '../../model/causes';
 import { CauseService } from '../../services/cause.service';
+import { ToastrService}  from 'ngx-toastr';
+
 @Component({
   selector: 'list-action',
   templateUrl: './list-action.component.html',
@@ -19,7 +21,7 @@ export class ListActionComponent implements OnInit {
   actionReclamations:ActionReclamation[]
   public idAction=null
   public id:number
-  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute,private actionReclamationService:ActionReclamationService,private causeService:CauseService) { }
+  constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private route: ActivatedRoute,private actionReclamationService:ActionReclamationService,private causeService:CauseService) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -69,6 +71,7 @@ export class ListActionComponent implements OnInit {
       this.actionReclamationService.addActionReclamation(this.actionFormGroup.value).subscribe(data=>{
         this.actionFormGroup.reset()
          this.closePopupAdd()
+         this.showNotificationAdd()
         this.getActionReclamtion(this.id)
       })
     
@@ -79,13 +82,18 @@ export class ListActionComponent implements OnInit {
     this.actionReclamationService.editActionReclamation(this.actionFormGroupEdit.value,this.idAction).subscribe(data=>{
       this.actionFormGroupEdit.reset()
       this.closePopupEdit()
+      this.showNotificationEdit()
       this.getActionReclamtion(this.id)
   })
   }
   onDeleteActionReclamation(id:number){
+    var result = confirm("Vous etes sure de supprimer cette action");
+    if(result){
      this.actionReclamationService.deleteActionReclamation(id).subscribe(data=>{
       this.getActionReclamtion(this.id)
+      this.showNotificationDelete()
      })
+    }
   }
   openPopupEdit(id:number) {
     this.idAction=id
@@ -123,4 +131,36 @@ export class ListActionComponent implements OnInit {
 
     })
   }
+
+  showNotificationAdd(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Ajout est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+  
+  }
+  showNotificationEdit(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Modification est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+  
+  }
+  showNotificationDelete(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Suppression est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+  
+  }
+
 }

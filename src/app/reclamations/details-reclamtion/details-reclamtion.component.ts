@@ -7,6 +7,8 @@ import { Causes } from '../../model/causes';
 import { CauseService } from '../../services/cause.service';
 import { Consequances } from '../../model/consequances';
 import { ConsequanceService } from '../../services/consequence.service';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'details-reclamtion',
   templateUrl: './details-reclamtion.component.html',
@@ -21,7 +23,7 @@ export class DetailsReclamtionComponent implements OnInit {
   public causeFormEdit:FormGroup
 
   private id:number
-  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute,private causeService:CauseService,private consequanceService:ConsequanceService) { }
+  constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute,private causeService:CauseService,private consequanceService:ConsequanceService) { }
   displayStyleCauseAdd:String
   displayStyleConsequeanceAdd:String
   displayStyleConsequeanceEdit:String
@@ -41,7 +43,8 @@ export class DetailsReclamtionComponent implements OnInit {
       gravite: ["", [Validators.required]],
       description: ["", [Validators.required]],
       lieuOuPromotion: ["", [Validators.required]],
-      pieceJointe:['', [Validators.required]],
+      //pieceJointe:['', [Validators.required]],
+      acteur:['', [Validators.required]],
 
     });
     this.causeForm = this.formBuilder.group({
@@ -80,6 +83,7 @@ export class DetailsReclamtionComponent implements OnInit {
       this.reclamationFrom.controls['gravite'].setValue(data.gravite)
       this.reclamationFrom.controls['description'].setValue(data.description)
       this.reclamationFrom.controls['lieuOuPromotion'].setValue(data.lieuOuPromotion)
+      this.reclamationFrom.controls['acteur'].setValue(data.acteur)
       this.causeForm.controls['reclamation'].setValue(data)
       this.consequenceForm.controls['reclamation'].setValue(data)
       this.consequenceFormEdit.controls['reclamation'].setValue(data)
@@ -121,6 +125,7 @@ export class DetailsReclamtionComponent implements OnInit {
   this.causeService.addCause(this.causeForm.value).subscribe((data:Causes)=>{
     this.causeForm.reset()
     this.closePopupAddCause()
+    this.showNotificationAdd()
     this.getCauses(this.id,this.pageNumber,this.pageSize)
   })
  }
@@ -129,19 +134,28 @@ export class DetailsReclamtionComponent implements OnInit {
   this.consequanceService.addConsequance(this.consequenceForm.value).subscribe((data:Causes)=>{
     this.causeForm.reset()
     this.closePopuAddConsequeance()
+    this.showNotificationAdd()
     this.getConsequences(this.id,this.pageNumber,this.pageSize)
   })
  }
 
  deleteCause(id:number){
+  var result = confirm("Vous etes sure de supprimer cette cause");
+  if(result){
   this.causeService.deleteCause(id).subscribe(data=>{
     this.getCauses(this.id,this.pageNumber,this.pageSize)
+    this.showNotificationDelete()
   })
+}
  }
  deleteConsequence(id:number){
+  var result = confirm("Vous etes sure de supprimer cette consequence");
+  if(result){
   this.consequanceService.deleteConsequance(id).subscribe(data=>{
     this.getConsequences(this.id,this.pageNumber,this.pageSize)
+    this.showNotificationDelete()
   })
+}
  }
  // consequences edit
  openPopupEditConsequeance(id:number) {
@@ -165,6 +179,7 @@ submitEditConsequeces(){
    this.consequanceService.editConsequances(this.consequenceFormEdit.value,this.idConsequences).subscribe((data)=>{
     this.consequenceFormEdit.reset()
     this.closePopuEditConsequeance()
+    this.showNotificationEdit()
     this.getConsequences(this.id,this.pageNumber,this.pageSize)  
     })
 }
@@ -192,7 +207,39 @@ submitEditCauses(){
    this.causeService.editCauses(this.causeFormEdit.value,this.idCause).subscribe((data)=>{
     this.causeFormEdit.reset()
     this.closePopupEditCause()
+    this.showNotificationEdit()
     this.getCauses(this.id,this.pageNumber,this.pageSize)  
     })
+}
+
+showNotificationAdd(){
+  this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Ajout est effectuée avec succes</b>.', '', {
+    timeOut: 8000,
+    closeButton: true,
+    enableHtml: true,
+    toastClass: "alert alert-primary alert-with-icon",
+    positionClass: 'toast-top-right'
+  });
+
+}
+showNotificationEdit(){
+  this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Modification est effectuée avec succes</b>.', '', {
+    timeOut: 8000,
+    closeButton: true,
+    enableHtml: true,
+    toastClass: "alert alert-primary alert-with-icon",
+    positionClass: 'toast-top-right'
+  });
+
+}
+showNotificationDelete(){
+  this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Suppression est effectuée avec succes</b>.', '', {
+    timeOut: 8000,
+    closeButton: true,
+    enableHtml: true,
+    toastClass: "alert alert-primary alert-with-icon",
+    positionClass: 'toast-top-right'
+  });
+
 }
 }

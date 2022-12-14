@@ -5,6 +5,7 @@ import { RisqueService } from '../../services/risque.service';
 import { ActionRisqueService } from '../../services/actionRisque.service';
 import { ActionRisque } from '../../model/actionRisque';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'details-risque',
@@ -26,10 +27,10 @@ export class DetailsRisqueComponent implements OnInit {
   pageSizeT= 10;
   idAction=null
   modalTite:String
-  constructor(private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private actioRisqueService:ActionRisqueService) { }
+  constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private actioRisqueService:ActionRisqueService) { }
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
-
+    console.log(this.id)
     this.risquesForm = this.formBuilder.group({
       dateDetection: ['', [Validators.required]],
       type: ['', [Validators.required]],
@@ -38,6 +39,8 @@ export class DetailsRisqueComponent implements OnInit {
       lieuOuPromotion: ['', [Validators.required]],
       evolution:['', [Validators.required]],
       pieceJointe:['', [Validators.required]],
+      acteur:['', [Validators.required]],
+
 
     });
     this.actionFormGroup= this.formBuilder.group({
@@ -65,6 +68,7 @@ export class DetailsRisqueComponent implements OnInit {
         this.risquesForm.controls['description'].setValue(data.description)
         this.risquesForm.controls['lieuOuPromotion'].setValue(data.lieuOuPromotion)
         this.risquesForm.controls['evolution'].setValue(data.evolution)
+        this.risquesForm.controls['acteur'].setValue(data.acteur)
         this.risquesForm.controls['niveau'].setValue(data.niveau)
         this.actionFormGroup.controls['risque'].setValue(data)
         this.actionFormGroupEdit.controls['risque'].setValue(data)
@@ -97,6 +101,7 @@ export class DetailsRisqueComponent implements OnInit {
       this.actioRisqueService.addActionRisque(this.actionFormGroup.value).subscribe(data=>{
         this.actionFormGroup.reset()
          this.closePopupAdd()
+         this.showNotificationAdd()
         this.getActionRisque(this.id)
       })
     
@@ -107,13 +112,18 @@ export class DetailsRisqueComponent implements OnInit {
     this.actioRisqueService.editActionRisque(this.actionFormGroupEdit.value,this.idAction).subscribe(data=>{
       this.actionFormGroupEdit.reset()
       this.closePopupEdit()
+      this.showNotificationEdit()
       this.getActionRisque(this.id)
   })
   }
   onDeleteActionRisque(id:number){
+    var result = confirm("Vous etes sure de supprimer cette action");
+    if(result){
      this.actioRisqueService.deleteActionRisque(id).subscribe(data=>{
       this.getActionRisque(this.id)
+      this.showNotificationDelete()
      })
+    }
   }
   openPopupEdit(id:number) {
     this.idAction=id
@@ -138,6 +148,38 @@ export class DetailsRisqueComponent implements OnInit {
   }
   closePopupEdit() {
     this.displayStyleEdit = "none";
+
+  }
+
+
+  showNotificationAdd(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Ajout est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+
+  }
+  showNotificationEdit(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Modification est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+
+  }
+  showNotificationDelete(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Suppression est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
 
   }
 }

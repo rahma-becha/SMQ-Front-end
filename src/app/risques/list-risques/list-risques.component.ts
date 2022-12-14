@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Risque } from '../../model/risque';
 import { RisqueService } from '../../services/risque.service';
+import { ToastrService}  from 'ngx-toastr';
+
 @Component({
   selector: 'app-list-risques',
   templateUrl: './list-risques.component.html',
@@ -12,7 +14,7 @@ export class ListRisquesComponent {
   pageNumber:number =0 ;
   pageSizeT= 10;
   
-  constructor(private risqueService:RisqueService) { }
+  constructor(private toastr: ToastrService,private risqueService:RisqueService) { }
 
   ngOnInit() {
     this.pageSizeT= 10;
@@ -45,12 +47,27 @@ export class ListRisquesComponent {
       });
   }
   onDeleteRisque(id: any): void {
-    this.risqueService.deleteRisque(id)
+    var result = confirm("Vous etes sure de supprimer ce risque");
+    if(result){
+      this.risqueService.deleteRisque(id)
       .subscribe({
         next: (res) => {
           this.retrieveRisques()
+          this.showNotificationDelete()
         },
         error: (e) => console.error(e)
       });
+    }
+   
+  }
+  showNotificationDelete(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Suppression est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+  
   }
 }

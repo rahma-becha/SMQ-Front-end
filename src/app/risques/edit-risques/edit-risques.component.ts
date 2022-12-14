@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { PieceJointe } from '../../model/pieceJointe';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PieceJointeService } from '../../services/pieceJointe.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'edit-risques',
   templateUrl: './edit-risques.component.html',
@@ -18,7 +18,7 @@ export class EditRisquesComponent implements OnInit {
   risquesForm:FormGroup
   private id:number
   pieceJointe:PieceJointe
-  constructor(private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private router: Router, private pieceJointeService:PieceJointeService) { }
+  constructor(private toastr: ToastrService,private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private router: Router, private pieceJointeService:PieceJointeService) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -51,6 +51,7 @@ export class EditRisquesComponent implements OnInit {
   }
   onSubmit(){
     this.risqueService.editRisque(this.risquesForm.value,this.id).subscribe((data:any)=>{
+    this.showNotification()
     this.getAllRisque()
   })
   }
@@ -81,5 +82,15 @@ export class EditRisquesComponent implements OnInit {
     this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
       this.risquesForm.controls['pieceJointe'].setValue(data)
     })
+  }
+  showNotification(){
+    this.toastr.success('<span class="now-ui-icons ui-1_bell-53"></span> <b>Modification est effectuée avec succes</b>.', '', {
+      timeOut: 8000,
+      closeButton: true,
+      enableHtml: true,
+      toastClass: "alert alert-primary alert-with-icon",
+      positionClass: 'toast-top-right'
+    });
+
   }
 }

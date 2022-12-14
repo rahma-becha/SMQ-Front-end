@@ -62,17 +62,7 @@
                 </div>
               </div>
              
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label for="lieuOuPromotion">Source <code>*</code></label>
-                  <input type="text" class="form-control" formControlName="lieuOuPromotion" name="lieuOuPromotion" id="lieuOuPromotion">
-                  <span class="mt-2" *ngIf="reclamationFrom.controls['lieuOuPromotion'].invalid && (reclamationFrom.controls['lieuOuPromotion'].dirty || reclamationFrom.controls['lieuOuPromotion'].touched)" class="alert">
-                    <span *ngIf="reclamationFrom.controls['lieuOuPromotion'].errors.required" class="text-danger">
-                    {{"Le champ Source est obligatoire"}}
-                    </span>
-                  </span>
-                </div>
-              </div>
+             
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="acteur">Acteur <code>*</code></label>
@@ -91,13 +81,24 @@
                   </span>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="lieuOuPromotion">Source <code>*</code></label>
+                  <input type="text" class="form-control" formControlName="lieuOuPromotion" name="lieuOuPromotion" id="lieuOuPromotion">
+                  <span class="mt-2" *ngIf="reclamationFrom.controls['lieuOuPromotion'].invalid && (reclamationFrom.controls['lieuOuPromotion'].dirty || reclamationFrom.controls['lieuOuPromotion'].touched)" class="alert">
+                    <span *ngIf="reclamationFrom.controls['lieuOuPromotion'].errors.required" class="text-danger">
+                    {{"Le champ Source est obligatoire"}}
+                    </span>
+                  </span>
+                </div>
+              </div>
+             <!--<div class="col-md-6">
                 <div class="form-group">
                   <label for="pieceJointe">Piece Jointe </label>
                   <input type="file" (change)="onUploadFiles($event.target.files)" class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
                 
                 </div>
-              </div>
+              </div>-->
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="description">Description <code>*</code></label>
