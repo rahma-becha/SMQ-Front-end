@@ -4,7 +4,9 @@ import { Risque } from '../../model/risque';
 import { RisqueService } from '../../services/risque.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-
+import { PieceJointe } from '../../model/pieceJointe';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PieceJointeService } from '../../services/pieceJointe.service';
 
 @Component({
   selector: 'edit-risques',
@@ -15,7 +17,8 @@ export class EditRisquesComponent implements OnInit {
 
   risquesForm:FormGroup
   private id:number
-  constructor(private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private router: Router) { }
+  pieceJointe:PieceJointe
+  constructor(private formBuilder: FormBuilder,private risqueService:RisqueService,private route: ActivatedRoute,private router: Router, private pieceJointeService:PieceJointeService) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -54,5 +57,29 @@ export class EditRisquesComponent implements OnInit {
   getAllRisque(): void {
     
     this.router.navigate(['/risques']);
+  }
+
+  onUploadFiles(files: File[]): void {
+    const formData = new FormData();
+    
+    for (const file of files) { formData.append('files', file, file.name); }
+    this.pieceJointeService.upload(formData).subscribe(
+      event => {
+        console.log(event);
+        this.pieceJointe.name=event[0]
+         this.risquesForm.controls['pieceJointe'].setValue(this.pieceJointe)
+         this.ajouterPieceJointe()
+       // this.resportProgress(event);
+        
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+  ajouterPieceJointe(){
+    this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
+      this.risquesForm.controls['pieceJointe'].setValue(data)
+    })
   }
 }

@@ -4,7 +4,9 @@ import { Reclamation } from '../../model/reclamation';
 import { ReclamationService } from '../../services/reclamation.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-
+import { PieceJointe } from '../../model/pieceJointe';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PieceJointeService } from '../../services/pieceJointe.service';
 @Component({
   selector: 'edit-reclamation',
   templateUrl: './edit-reclamation.component.html',
@@ -15,7 +17,8 @@ export class EditReclamationComponent implements OnInit {
   public reclamationFrom!:FormGroup
   private reclamation:Reclamation
   private id:number
-  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute, private router:Router) { }
+  pieceJointe:PieceJointe
+  constructor(private formBuilder: FormBuilder,private reclamationService:ReclamationService,private route: ActivatedRoute, private pieceJointeService:PieceJointeService, private router:Router) { }
 
   ngOnInit(): void {
     this.id=+this.route.snapshot.paramMap.get('id');
@@ -53,4 +56,30 @@ export class EditReclamationComponent implements OnInit {
       
       this.router.navigate(['/reclamations']);
     }
+
+   
+  
+  onUploadFiles(files: File[]): void {
+    const formData = new FormData();
+    
+    for (const file of files) { formData.append('files', file, file.name); }
+    this.pieceJointeService.upload(formData).subscribe(
+      event => {
+        console.log(event);
+        this.pieceJointe.name=event[0]
+         this.reclamationFrom.controls['pieceJointe'].setValue(this.pieceJointe)
+         this.ajouterPieceJointe()
+       // this.resportProgress(event);
+        
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+  ajouterPieceJointe(){
+    this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
+      this.reclamationFrom.controls['pieceJointe'].setValue(data)
+    })
+  }
 }

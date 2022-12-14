@@ -48,10 +48,10 @@
                   <label for="niveau">Niveau <code>*</code></label>
                   <select name="niveau" formControlName="niveau" name="niveau" id="niveau" class="form-control">
                      <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
-                     <option value="">{{"Choisir un niveau"}}</option>
+                     <option value="Aucun Risque">{{"Aucun Risque"}}</option>
+                     <option value="Risque mineur">{{"Risque mineur"}}</option>
+                     <option value="Risque majeur">{{"Risque majeur"}}</option>
+                     <option value="Risque mettant en jeu la securite des personnes">{{"Risque mettant en jeu la securite des personnes"}}</option>
 
                   </select>
                   <span class="mt-2" *ngIf="risquesForm.controls['niveau'].invalid && (risquesForm.controls['niveau'].dirty || risquesForm.controls['niveau'].touched)" class="alert">
@@ -93,7 +93,14 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="evolution">evolution <code>*</code></label>
-                  <input type="text" class="form-control" formControlName="evolution" name="evolution" id="evolution">
+                  <select name="evolution" formControlName="evolution" id="evolution" class="form-control">
+                    <option value="">{{"Choisir une evolution"}}</option>
+                     <option value="Evolution vers moins de risque">{{"Evolution vers moins de risque"}}</option>
+                     <option value="Pas de changement">{{"Pas de changement"}}</option>
+                     <option value="Evolution vers plus de risque">{{"Etudiant"}}</option>
+
+
+                  </select>
                   <span class="mt-2" *ngIf="risquesForm.controls['evolution'].invalid && (risquesForm.controls['evolution'].dirty || risquesForm.controls['evolution'].touched)" class="alert">
                     <span *ngIf="risquesForm.controls['evolution'].errors.required" class="text-danger">
                     {{"Le champ evolution est obligatoire"}}
@@ -103,13 +110,9 @@
               </div>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="pieceJointe">Piece Jointe <code>*</code></label>
-                  <input type="file" class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
-                  <span class="mt-2" *ngIf="risquesForm.controls['pieceJointe'].invalid && (risquesForm.controls['pieceJointe'].dirty || risquesForm.controls['pieceJointe'].touched)" class="alert">
-                    <span *ngIf="risquesForm.controls['pieceJointe'].errors.required" class="text-danger">
-                    {{"Le champ Piece Jointe est obligatoire"}}
-                    </span>
-                  </span>
+                  <label for="pieceJointe">Piece Jointe</label>
+                  <input type="file" (change)="onUploadFiles($event.target.files)" class="form-control"  formControlName="pieceJointe" name="pieceJointe" id="pieceJointe">
+                  
                 </div>
               </div>
               <div class="col-md-12">

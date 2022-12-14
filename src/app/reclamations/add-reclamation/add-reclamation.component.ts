@@ -5,6 +5,7 @@ import { ReclamationService } from '../../services/reclamation.service';
 import { PieceJointeService } from '../../services/pieceJointe.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { PieceJointe } from '../../model/pieceJointe';
 @Component({
   selector: 'add-reclamation',
   templateUrl: './add-reclamation.component.html',
@@ -14,6 +15,8 @@ export class AddReclamationComponent implements OnInit {
    public reclamationFrom!:FormGroup
    private reclamation:Reclamation
    file:File
+   //name:String
+   pieceJointe:PieceJointe={name:''}
   constructor(private reclamationService:ReclamationService, private formBuilder: FormBuilder, private pieceJointeService:PieceJointeService, private router:Router) { }
 
   ngOnInit(): void {
@@ -24,8 +27,7 @@ export class AddReclamationComponent implements OnInit {
       description: ['', [Validators.required]],
       lieuOuPromotion: ['', [Validators.required]],
       acteur: ['', [Validators.required]],
-
-     // pieceJointe:['', [Validators.required]],
+      pieceJointe:['', [Validators.required]],
     });
   }
   onSubmit(){
@@ -43,10 +45,14 @@ export class AddReclamationComponent implements OnInit {
   onUploadFiles(files: File[]): void {
     const formData = new FormData();
     //this.name=files[0].name;
+    
     for (const file of files) { formData.append('files', file, file.name); }
     this.pieceJointeService.upload(formData).subscribe(
       event => {
         console.log(event);
+        this.pieceJointe.name=event[0]
+         this.reclamationFrom.controls['pieceJointe'].setValue(this.pieceJointe)
+         this.ajouterPieceJointe()
        // this.resportProgress(event);
         
       },
@@ -55,5 +61,9 @@ export class AddReclamationComponent implements OnInit {
       }
     );
   }
-
+  ajouterPieceJointe(){
+    this.pieceJointeService.addPieceJointe(this.pieceJointe).subscribe((data:PieceJointe)=>{
+      this.reclamationFrom.controls['pieceJointe'].setValue(data)
+    })
+  }
 }
